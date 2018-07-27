@@ -23,9 +23,9 @@ public class UbicacionRestController {
 	@Autowired
 	private UbicacionService ubicacionService;
 
-	@RequestMapping(value = "/ubicacion/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ubicaciones/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Ubicacion>> getObjeto(@PathVariable String id) {
-		System.out.println("Fetching Ubicacion with idObjero " + id);
+		System.out.println("Fetching Ubicacion with idObjeto " + id);
 		List<Ubicacion> ubicaciones = ubicacionService.getTravel(Long.valueOf(id));
         if (ubicaciones == null || ubicaciones.size() == 0) {
             System.out.println("Ubicacion with idObjeto " + id + " not found");
@@ -42,5 +42,23 @@ public class UbicacionRestController {
         headers.setLocation(ucBuilder.path("/ubicacion/{id}").buildAndExpand(ubicacion.getIdObjeto()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
+	
+	
+	@RequestMapping(value = "/ubicacionPorFecha", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE )
+	public ResponseEntity<List<Ubicacion>> getObjetos(@RequestBody Ubicacion ubicacion){
+		System.out.println("Consultando ubicaciones por fechas " + ubicacion.getFechaInicio() + " -" +ubicacion.getFechaFin());
+		List<Ubicacion> ubicaciones = ubicacionService.getTravels(ubicacion.getIdObjeto().getIdObjeto(), ubicacion.getFechaFin(), ubicacion.getFechaFin());
+		
+		if(ubicaciones.isEmpty()) {
+			 System.out.println("Ubicacion with idObjeto " + ubicacion.getIdObjeto().getIdObjeto() + " not found");
+	         return new ResponseEntity<List<Ubicacion>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<Ubicacion>>(ubicaciones, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
 
 }

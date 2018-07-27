@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @IdClass(UbicacionPK.class)
 @Entity
@@ -25,6 +26,12 @@ public class Ubicacion implements Serializable {
 	private String pais;
 	private String latitud;
 	private String longitud;
+	
+	@Transient
+	private Date fechaInicio;
+	
+	@Transient
+	private Date fechaFin;
 
 	public Date getFecha() {
 		return fecha;
@@ -62,7 +69,20 @@ public class Ubicacion implements Serializable {
 	public void setLongitud(String longitud) {
 		this.longitud = longitud;
 	}
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
 
+	
 	
 	
 }

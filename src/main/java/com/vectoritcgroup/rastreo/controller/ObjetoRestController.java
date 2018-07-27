@@ -9,17 +9,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.vectoritcgroup.rastreo.model.Objeto;
 import com.vectoritcgroup.rastreo.service.ObjetoService;
 
 
-@Controller
+@RestController
 public class ObjetoRestController {
 	
 	@Autowired
@@ -54,4 +56,15 @@ public class ObjetoRestController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
     
+	
+	@RequestMapping(value = "/objetos/{nombre}", method = RequestMethod.GET)
+	public ResponseEntity<List<Objeto>> listaObjetosByNombre(@PathVariable String nombre){
+		System.out.println("Fetching Object with nombre " + nombre);
+		List<Objeto> objetos = objetoService.getByNombre(nombre);
+		if (objetos == null || objetos.isEmpty()) {
+			System.out.println("Objet with nombre " + nombre + " not found");
+			return new ResponseEntity<List<Objeto>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<Objeto>>(objetos, HttpStatus.OK);
+	}
 }

@@ -1,5 +1,6 @@
 package com.vectoritcgroup.rastreo.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -13,5 +14,8 @@ public interface UbicacionRepository extends CrudRepository<Ubicacion, Ubicacion
 	
 	@Query("select c from Ubicacion c where c.idObjeto.idObjeto = :id")
 	List<Ubicacion> findByIdObjeto(@Param("id") long id);
+	
+	@Query("select c from Ubicacion c where c.idObjeto.idObjeto = :id and fecha between :fechaInicio and :fechaFin")
+	List<Ubicacion> findByDates(@Param("id") long id, @Param("fechaInicio") Date fechaInicio,@Param("fechaFin") Date fechaFin);
 
 }

@@ -9,6 +9,7 @@ import com.vectoritcgroup.rastreo.model.Ubicacion;
 import com.vectoritcgroup.rastreo.repository.UbicacionRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,4 +39,16 @@ public class UbicacionImpl implements UbicacionService {
 		return ubicacionRepository.save(ubicacion);
 	}
     
+	
+	@Override
+	public List<Ubicacion> getTravels(long idobjeto,Date fechaInicio, Date fechaFin) {
+		List<Ubicacion> travels = new ArrayList<>();
+		
+		ubicacionRepository.findByDates(idobjeto, fechaInicio, fechaFin).forEach(travels::add);
+		
+		return travels;
+		
+		
+		
+	}
 }
